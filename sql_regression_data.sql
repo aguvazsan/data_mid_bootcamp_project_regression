@@ -72,6 +72,8 @@ ALTER TABLE house_price_data CHANGE COLUMN `condition` house_condition INT;
 -- Data file should not have headers. 
 -- Create new column id set on autoincrement to assign specific identifier for each row. Set as primary key.
 
+
+USE house_price_regression;
 -- 4.  Select all the data from table `house_price_data` to check if the data was imported correctly
 
 SELECT * FROM house_price_data;
@@ -93,6 +95,8 @@ FROM house_price_data;
 
 
 -- 7.  Now we will try to find the unique values in some of the categorical columns:
+
+USE house_price_regression;
 
     -- What are the unique values in the column `bedrooms`?
     SELECT DISTINCT bedrooms
@@ -128,7 +132,7 @@ ORDER BY price DESC
 LIMIT 10;
 
 -- 9.  What is the average price of all the properties in your data?
-SELECT AVG(price) AS average_price
+SELECT ROUND(AVG(price), 2) AS average_price
 FROM house_price_data;
 
 
@@ -212,3 +216,44 @@ SELECT *
 FROM house_price_data
 ORDER BY price DESC
 LIMIT 1 OFFSET 10;
+
+-- Average price by bedrooms
+
+SELECT bedrooms, ROUND(AVG(price), 2) AS average_price
+FROM house_price_data
+GROUP BY bedrooms
+ORDER BY bedrooms;
+
+-- Average price by bathrooms
+
+SELECT bathrooms, ROUND(AVG(price), 2) AS average_price
+FROM house_price_data
+GROUP BY bathrooms
+ORDER BY bathrooms;
+
+-- Average price by sqft_living15
+
+SELECT sqft_living15, ROUND(AVG(price), 2) AS average_price
+FROM house_price_data
+GROUP BY sqft_living15;
+
+-- Average price by grade
+
+SELECT grade, ROUND(AVG(price), 2) AS average_price
+FROM house_price_data
+GROUP BY grade
+ORDER BY grade;
+
+-- Average price by floors
+
+SELECT floors, ROUND(AVG(price), 2) AS average_price
+FROM house_price_data
+GROUP BY floors
+ORDER BY floors;
+
+-- Top 15 most expensive properties 
+
+SELECT property_id, floors, bedrooms, bathrooms, sqft_living15, grade, ROUND(price, 2) AS price
+FROM house_price_data
+ORDER BY price DESC
+LIMIT 10;
